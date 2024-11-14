@@ -1,3 +1,4 @@
+
 import re
 import os
 import time
@@ -20,9 +21,6 @@ from google.oauth2 import service_account
 import requests
 from bs4 import BeautifulSoup
 from http.client import HTTPException
-
-
-TOKEN=os.environ['TOKEN']
 
 # Define the required scopes
 SCOPES = ["https://www.googleapis.com/auth/cloud-platform"]
@@ -732,6 +730,3 @@ async def create_items(
     result_template=git_template_push(url,REPO_URL,NEW_BRANCH_NAME,REPO_NAME)
 
     return result_template
-    
-    
-
