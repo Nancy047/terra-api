@@ -784,6 +784,4 @@ async def create_items(
     result_template=git_template_push(url,REPO_URL,NEW_BRANCH_NAME,REPO_NAME)
 
     return result_template
-    
-    
 
