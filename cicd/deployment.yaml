@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: terra-ai-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: terra-ai-v2
+  template:
+    metadata:
+      labels:
+        app: terra-ai-v2
+    spec:
+      containers:
+      - name: terra-ai-v2
+        image: 
+        envFrom:
+        - secretRef:
+            name: git-tkn
+        ports:
+        - containerPort: 8000
