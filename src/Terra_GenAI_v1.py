@@ -36,7 +36,7 @@ def get_service_account_key(project_id, secret_id, version_id="latest"):
 
 # Fetch the service account key from Secret Manager
 PROJECT_ID_CRED = "lumen-b-ctl-047"
-SECRET_ID = "terraform_secret1"
+SECRET_ID = "terraform_secret"
 
 service_account_info = get_service_account_key(PROJECT_ID_CRED, SECRET_ID)
 
