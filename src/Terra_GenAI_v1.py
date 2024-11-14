@@ -52,6 +52,58 @@ os.system('apt-get install -y git')
 os.system('apt-get install -y gettext')
 os.system('git config --global user.email "terraAI@example.com"')
 os.system('git config --global user.name "terraAI"')
+# from ast import List
+# from typing import List
+# from cgitb import reset
+# from http.client import HTTPException
+# from typing import List
+# from fastapi import FastAPI, UploadFile, File, Query
+# from fastapi.responses import FileResponse
+# from fastapi.middleware.cors import CORSMiddleware
+# from langchain_google_vertexai import VertexAI
+# from googleapiclient.discovery import build
+# import urllib
+# import base64
+# import os
+# import time
+# from github import Github
+# from github import InputGitTreeElement
+# import requests
+# from langchain_core.output_parsers import StrOutputParser
+# import json
+# import re
+# import zipfile
+# import io
+# import shutil
+# from datetime import datetime
+# from git import Repo, GitCommandError
+# from bs4 import BeautifulSoup
+# from http.client import HTTPException
+
+# # from fastapi import FastAPI, Query
+# from pydantic import BaseModel
+# from typing import List, Optional
+# from enum import Enum
+# # import requests
+# # import zipfile
+# # import io
+# # import os
+# # import shutil
+# # from datetime import datetime
+# # from git import Repo, GitCommandError
+# import stat
+
+
+# # from langchain_openai import ChatOpenAI
+# from langchain_core.prompts import ChatPromptTemplate
+# from langchain_core.output_parsers import StrOutputParser
+# # from langsmith.evaluation import evaluator
+
+
+
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "lumen-b-ctl-047-c8582c19f6cb.json"
+
+# llm_mdl   = VertexAI(model_name="gemini-1.5-flash-001",temperature=0)
 
 app = FastAPI()
 origins = ["*"] 
@@ -567,81 +619,54 @@ async def use_gke(username: str, repo: str, branch: str, token: str, app_name: s
     message = 'Files added successfully'
     return message
 
-@app.post("/java_items/")
-async def create_items(
-    dependency: List[str],
-    baseDir: str,
-    bootVersion: str,
-    type: str,
-    groupId: str,
-    artifactId: str,
-    name: str,
-    description: str,
-    packageName: str,
-    javaVersion: str,
-    username: str,
-    repo: str,
-    token: str,
-    new_branch: str
-):
-    def get_values_from_dict(keys):
-        my_dict = {
-            'Spring Web':'web',
-            'Spring Data JPA':'data-jpa',
-            'Spring Security':'security',
-            'Spring Boot Actuator':'actuator',
-            'Spring Data MongoDB':'data-mongodb',
-            'Spring Data Redis':'data-redis',
-            'Spring Data Cassandra':'data-cassandra',
-            'Spring Data Couchbase':'data-couchbase',
-            'Spring Data Elasticsearch':'data-elasticsearch',
-            'H2 Database':'h2',
-            'MySQL Driver':'mysql',
-            'PostgreSQL Driver':'postgresql',
-            'Oracle Driver':'oracle',
-            'SQL Server Driver':'sqlserver',
-            'Spring Kafka':'kafka',
-            'Spring AMQP':'amqp',
-            'Spring Web Services':'web-services',
-            'Spring Cloud Config':'config-client',
-            'Spring Cloud Netflix Eureka':'eureka',
-            'Spring Cloud Gateway':'gateway',
-            'Spring Cloud Circuit Breaker':'circuitbreaker-resilience4j',
-            'Spring Cloud OpenFeign':'openfeign',
-            'Spring WebFlux':'webflux',
-            'Project Reactor':'reactor-core',
-            'Spring Boot DevTools':'devtools',
-            'Spring Boot Admin':'admin',
-            'Spring Boot Test':'test',
-            'JUnit':'junit',
-            'Mockito':'mockito',
-            'Thymeleaf':'thymeleaf',
-            'Freemarker':'freemarker',
-            'Mustache':'mustache',
-            'Validation':'validation'
-        }
-        values = [my_dict[key] for key in keys if key in my_dict]
-        return ','.join(values)
+def get_values_from_dict(keys):
+    my_dict = {
+        'Spring Web':'web',
+        'Spring Data JPA':'data-jpa',
+        'Spring Security':'security',
+        'Spring Boot Actuator':'actuator',
+        'Spring Data MongoDB':'data-mongodb',
+        'Spring Data Redis':'data-redis',
+        'Spring Data Cassandra':'data-cassandra',
+        'Spring Data Couchbase':'data-couchbase',
+        'Spring Data Elasticsearch':'data-elasticsearch',
+        'H2 Database':'h2',
+        'MySQL Driver':'mysql',
+        'PostgreSQL Driver':'postgresql',
+        'Oracle Driver':'oracle',
+        'SQL Server Driver':'sqlserver',
+        'Spring Kafka':'kafka',
+        'Spring AMQP':'amqp',
+        'Spring Web Services':'web-services',
+        'Spring Cloud Config':'config-client',
+        'Spring Cloud Netflix Eureka':'eureka',
+        'Spring Cloud Gateway':'gateway',
+        'Spring Cloud Circuit Breaker':'circuitbreaker-resilience4j',
+        'Spring Cloud OpenFeign':'openfeign',
+        'Spring WebFlux':'webflux',
+        'Project Reactor':'reactor-core',
+        'Spring Boot DevTools':'devtools',
+        'Spring Boot Admin':'admin',
+        'Spring Boot Test':'test',
+        'JUnit':'junit',
+        'Mockito':'mockito',
+        'Thymeleaf':'thymeleaf',
+        'Freemarker':'freemarker',
+        'Mustache':'mustache',
+        'Validation':'validation'
+    }
+    values = [my_dict[key] for key in keys if key in my_dict]
+    return ','.join(values)
 
-    result_depe = get_values_from_dict(dependency)
-    url = 'http://34.44.234.14:8080/api/generate?dependencies='+result_depe+'&baseDir='+baseDir+'&bootVersion='+bootVersion+'&type='+type+'&language=java&groupId='+groupId+'&artifactId='+artifactId+'&name='+name+'&description='+description+'&packageName='+packageName+'&javaVersion='+javaVersion+''
-
- 
-    # Git and repository details
-    GIT_TOKEN = token  # Replace with your Git token
-    GIT_USERNAME = username  # Replace with your Git username
-    REPO_NAME = repo  # Replace with your repository name
-    NEW_BRANCH_NAME = new_branch  # Replace with your new branch name
-    REPO_URL = f"https://{GIT_USERNAME}:{GIT_TOKEN}@github.com/{GIT_USERNAME}/{REPO_NAME}.git"
-    
+def git_template_push(url,repo_url,new_branch_name,repo_name):
     # Define unique local repo path
     LOCAL_REPO_PATH = "unique_string"
-    
+
     def unzip_file(zip_file, extract_to):
         """Unzips a file to the specified directory."""
         with zip_file as zf:
             zf.extractall(extract_to)
-    
+
     def clone_repo(repo_url, local_repo_path):
         """Clones the Git repository to the specified local path."""
         try:
@@ -649,13 +674,13 @@ async def create_items(
             return repo
         except GitCommandError as e:
             raise Exception(f"Error cloning repository: {e}")
-    
+
     def push_to_new_branch(repo, branch_name):
         """Creates a new branch and pushes the changes to the remote repository."""
         new_branch = repo.create_head(branch_name)
         repo.head.reference = new_branch
         repo.head.reset(index=True, working_tree=True)
-    
+
     def change_permissions(path):
         """Changes permissions of files and directories to allow deletion."""
         for root, dirs, files in os.walk(path):
@@ -663,7 +688,7 @@ async def create_items(
                 os.chmod(os.path.join(root, dir), stat.S_IWUSR | stat.S_IREAD | stat.S_IEXEC)
             for file in files:
                 os.chmod(os.path.join(root, file), stat.S_IWUSR | stat.S_IREAD | stat.S_IEXEC)
-    
+
     def close_and_delete(path):
         """Closes open files and deletes the directory."""
         change_permissions(path)  # Ensure permissions allow deletion
@@ -682,20 +707,83 @@ async def create_items(
         if os.path.exists(LOCAL_REPO_PATH):
             close_and_delete(LOCAL_REPO_PATH)
         
-        repo = clone_repo(REPO_URL, LOCAL_REPO_PATH)
-        push_to_new_branch(repo, NEW_BRANCH_NAME)
+        repo = clone_repo(repo_url, LOCAL_REPO_PATH)
+        push_to_new_branch(repo, new_branch_name)
 
         # Unzip the file into the repo, add, commit, and push changes
         unzip_file(zip_file, LOCAL_REPO_PATH)
         repo.git.add(A=True)
         repo.index.commit("Add files from in-memory zip file")
         origin = repo.remote(name='origin')
-        origin.push(NEW_BRANCH_NAME)
+        origin.push(new_branch_name)
 
         # Clean up local repo after push
         close_and_delete(LOCAL_REPO_PATH)
 
-        return f"Successfully pushed to branch {NEW_BRANCH_NAME} in repository {REPO_NAME}"
+        return f"Successfully pushed to branch {new_branch_name} in repository {repo_name}"
 
     except requests.exceptions.RequestException as e:
         return str(e)
+
+@app.post("/java_items/")
+async def create_items(
+    dependency: List[str],
+    baseDir: str,
+    bootVersion: str,
+    type: str,
+    groupId: str,
+    artifactId: str,
+    name: str,
+    description: str,
+    packageName: str,
+    javaVersion: str,
+    username: str,
+    repo: str,
+    token: str,
+    new_branch: str
+):
+
+    result_depe = get_values_from_dict(dependency)
+    url = 'http://34.44.234.14:8080/api/generate?dependencies='+result_depe+'&baseDir='+baseDir+'&bootVersion='+bootVersion+'&type='+type+'&language=java&groupId='+groupId+'&artifactId='+artifactId+'&name='+name+'&description='+description+'&packageName='+packageName+'&javaVersion='+javaVersion+''
+ 
+    # Git and repository details
+    GIT_TOKEN = token  # Replace with your Git token
+    GIT_USERNAME = username  # Replace with your Git username
+    REPO_NAME = repo  # Replace with your repository name
+    NEW_BRANCH_NAME = new_branch  # Replace with your new branch name
+    REPO_URL = f"https://{GIT_USERNAME}:{GIT_TOKEN}@github.com/{GIT_USERNAME}/{REPO_NAME}.git"
+    
+    result_template=git_template_push(url,REPO_URL,NEW_BRANCH_NAME,REPO_NAME)
+
+    return result_template
+
+
+@app.post("/java_items_tmf/")
+async def create_items(
+    dependency: List[str],
+    type: str,
+    javaVersion: str,
+    tmfStandard: str,
+    dbConfig: str,
+    username: str,
+    repo: str,
+    token: str,
+    new_branch: str
+):
+
+    result_depe = get_values_from_dict(dependency)
+    url = 'http://34.44.234.14:8087/api/generate?dependencies='+result_depe+'&type='+type+'&language=java&javaVersion='+javaVersion+'&TMFStandard='+tmfStandard+'&dbConfig='+dbConfig+''
+ 
+    # Git and repository details
+    GIT_TOKEN = token  # Replace with your Git token
+    GIT_USERNAME = username  # Replace with your Git username
+    REPO_NAME = repo  # Replace with your repository name
+    NEW_BRANCH_NAME = new_branch  # Replace with your new branch name
+    REPO_URL = f"https://{GIT_USERNAME}:{GIT_TOKEN}@github.com/{GIT_USERNAME}/{REPO_NAME}.git"
+
+    result_template=git_template_push(url,REPO_URL,NEW_BRANCH_NAME,REPO_NAME)
+
+    return result_template
+    
+    
+
