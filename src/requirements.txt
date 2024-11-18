@@ -96,11 +96,11 @@ jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 kiwisolver==1.4.5
 kubernetes==31.0.0
-langchain==0.1.13
-langchain-community==0.0.29
-langchain-core==0.1.33
-langchain-google-vertexai==0.1.1
-langchain-text-splitters==0.0.1
+langchain==0.2.0
+langchain-community==0.1.0
+langchain-core==0.2.43
+langchain-google-vertexai==0.2.0
+langchain-text-splitters==0.1.0
 langgraph==0.2.45
 langgraph-checkpoint==2.0.2
 langgraph-sdk==0.1.35
