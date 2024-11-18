@@ -15,6 +15,7 @@ import shutil
 from datetime import datetime
 import stat
 from git import Repo, GitCommandError
+from google.auth.transport.requests import Request
 from google.cloud import secretmanager
 from google.oauth2 import service_account
 import requests
@@ -31,7 +32,8 @@ SCOPES = ["https://www.googleapis.com/auth/cloud-platform"]
 def get_service_account_key(project_id, secret_id, version_id="latest"):
     client = secretmanager.SecretManagerServiceClient()
     name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
-    response = client.access_secret_version(request={"name": name})
+    # response = client.access_secret_version(request={"name": name})
+    response = client.access_secret_version(name=name)
     return response.payload.data.decode("UTF-8")
 
 # Fetch the service account key from Secret Manager
@@ -43,6 +45,7 @@ service_account_info = get_service_account_key(PROJECT_ID_CRED, SECRET_ID)
 # Load the credentials from the service account key JSON
 credentials_info = json.loads(service_account_info)
 credentials = service_account.Credentials.from_service_account_info(credentials_info, scopes=SCOPES)
+credentials.refresh(Request())
 
 # Initialize the VertexAI client with the scoped credentials
 llm_mdl = VertexAI(model_name="gemini-1.5-flash-001", temperature=0, credentials=credentials)
