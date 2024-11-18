@@ -4,6 +4,9 @@ FROM python:3.11-slim
 COPY src/requirements.txt /requirements.txt
 COPY src/Terra_GenAI_v1.py /Terra_GenAI_v1.py
 
+# Upgrade pip to the latest version
+RUN pip install --upgrade pip
+
 RUN pip install --no-cache-dir -r /requirements.txt
 RUN pip install fastapi uvicorn google-cloud-secret-manager google-auth google-auth-oauthlib
 RUN apt-get update && apt-get install -y git
