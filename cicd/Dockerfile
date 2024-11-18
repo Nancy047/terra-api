@@ -8,7 +8,9 @@ COPY src/Terra_GenAI_v1.py /Terra_GenAI_v1.py
 RUN pip install --upgrade pip
 
 RUN pip install --no-cache-dir -r /requirements.txt
-RUN pip install fastapi uvicorn google-cloud-secret-manager google-auth google-auth-oauthlib
+# RUN pip install fastapi uvicorn google-cloud-secret-manager google-auth google-auth-oauthlib
+RUN pip install fastapi uvicorn google-cloud-secret-manager google-cloud-aiplatform google-auth google-auth-oauthlib google-auth-httplib2
+
 RUN apt-get update && apt-get install -y git
 
 
