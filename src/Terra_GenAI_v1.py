@@ -26,7 +26,10 @@ from http.client import HTTPException\
 TOKEN=os.environ['TOKEN']
 
 # Define the required scopes
-SCOPES = ["https://www.googleapis.com/auth/cloud-platform"]
+SCOPES = [
+    "https://www.googleapis.com/auth/cloud-platform",
+    "https://www.googleapis.com/auth/cloud-ai-platform"
+]
 
 # Function to fetch the service account key from Secret Manager
 def get_service_account_key(project_id, secret_id, version_id="latest"):
