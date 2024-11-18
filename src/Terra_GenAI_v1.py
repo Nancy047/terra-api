@@ -35,8 +35,8 @@ SCOPES = [
 def get_service_account_key(project_id, secret_id, version_id="latest"):
     client = secretmanager.SecretManagerServiceClient()
     name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
-    # response = client.access_secret_version(request={"name": name})
-    response = client.access_secret_version(name=name)
+    response = client.access_secret_version(request={"name": name})
+    # response = client.access_secret_version(name=name)
     return response.payload.data.decode("UTF-8")
 
 # Fetch the service account key from Secret Manager
