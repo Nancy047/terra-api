@@ -49,7 +49,7 @@ service_account_info = get_service_account_key(PROJECT_ID_CRED, SECRET_ID)
 # Load the credentials from the service account key JSON
 credentials_info = json.loads(service_account_info)
 credentials = service_account.Credentials.from_service_account_info(credentials_info, scopes=SCOPES)
-credentials.refresh(Request())
+# credentials.refresh(Request())
 
 # Initialize the VertexAI client with the scoped credentials
 llm_mdl = VertexAI(model_name="gemini-1.5-flash-001", temperature=0, credentials=credentials)
